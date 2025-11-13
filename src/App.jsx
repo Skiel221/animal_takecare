@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import Logo from './assets/logo.png'
 import './global.css'
+import AdminLayout from './layouts/AdminLayout.jsx'
 
 function App() {
+  const [view, setView] = useState('home')
   // Datos de ejemplo para las cards de perros
   const perros = [
     { id: 1, nombre: "Nombre del perro" },
@@ -18,27 +21,32 @@ function App() {
       <nav className="navbar">
         <div className="nav-left">
           <a href="/" className="logo-link">
-            <img src="/vite.svg" className="nav-logo" alt="AnimalTakeCare Logo" />
+            <img src={Logo} className="nav-logo" alt="AnimalTakeCare Logo" />
             <h1 className="nav-title">AnimalTakeCare</h1>
           </a>
         </div>
         <div className="nav-right">
           <button className="login-btn">Iniciar sesión</button>
+          <button className="login-btn" style={{ marginLeft: '10px' }} onClick={() => setView('admin')}>Admin</button>
         </div>
       </nav>
 
       {/* Main content */}
       <main className="main-content">
-        <div className="perros-grid">
-          {perros.map(perro => (
-            <div key={perro.id} className="perro-card">
-              <div className="perro-image-placeholder">
-                <span>Imagen del perro</span>
+        {view === 'admin' ? (
+          <AdminLayout />
+        ) : (
+          <div className="perros-grid">
+            {perros.map(perro => (
+              <div key={perro.id} className="perro-card">
+                <div className="perro-image-placeholder">
+                  <span>Imagen del perro</span>
+                </div>
+                <h3 className="perro-nombre">{perro.nombre}</h3>
               </div>
-              <h3 className="perro-nombre">{perro.nombre}</h3>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </main>
     </>
   )
